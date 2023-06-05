@@ -19,6 +19,7 @@ app.get("/", (req, res) => {
   res.send(listEndpoints(app));
 });
 
+// User
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -54,10 +55,10 @@ app.post("/register", async (req, res) => {
         accessToken: newUser.accessToken
       }
     })
-  } catch (e) {
+  } catch (error) {
     res.status(400).json({
       success: false,
-      response: e
+      response: error
     })
   }
 });
@@ -82,10 +83,10 @@ app.post("/login", async (req, res) => {
         response: "Credentials do not match"
       });
     }
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      response: e
+      response: error
     });
   }
 })
@@ -117,10 +118,10 @@ const authenticateUser = async (req, res, next) => {
         response: "Please log in"
       })
     }
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      response: e
+      response: error
     });
   }
 }
@@ -140,6 +141,48 @@ app.post("/likes", async (req, res) => {
 
   res.status(200).json({success: true, response: likes})
 });
+
+// Heritage sites
+const UnescoSchema = new mongoose.Schema({
+  name: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  countryName: {
+    type: String
+  }
+});
+
+const Unesco = mongoose.model("Unesco", UnescoSchema);
+
+// Site endpoint
+app.get("/sites", async (req, res) => {
+  try {
+    const sites = await Unesco.find({ countryName: /italy/i }, 'name description')
+    if (sites) {
+      res.status(200).json({
+        success: true,
+        body: sites
+      })
+    } else {
+      res.status(404).json({
+        success: false,
+        body: {
+          message: "Name not found"
+        }
+      })
+    }
+  } catch(error) {
+    res.status(500).json({
+      success: false,
+      body: {
+        message: error
+      }
+    })
+  }}
+)
 
 // Start the server
 app.listen(port, () => {
