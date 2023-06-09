@@ -160,7 +160,7 @@ const Unesco = mongoose.model("Unesco", UnescoSchema);
 // Site endpoint
 app.get("/sites", async (req, res) => {
   try {
-    const sites = await Unesco.find(/* { countryName: /italy/i }, */ 'name description location')
+    const sites = await Unesco.find({ countryName: /italy/i }, { countryName: /italy,/i }, { countryName: /,gititaly,/i },'name description location')
     if (sites) {
       res.status(200).json({
         success: true,
