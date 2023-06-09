@@ -184,6 +184,34 @@ app.get("/sites", async (req, res) => {
   }}
 )
 
+// Location endpoint
+app.get("/sites/:location", async (req, res) => {
+  try {
+    const { location } = req.body;
+    const siteData = await Unesco.findOne({location:location});
+    if (siteData) {
+      res.status(200).json({
+        success: true,
+        body: siteData
+      })
+    } else {
+      res.status(404).json({
+        success: false,
+        body: {
+          message: "Location not found"
+        }
+      })
+    }
+  } catch(error) {
+    res.status(500).json({
+      success: false,
+      body: {
+        message: error.message
+      }
+    })
+  }}
+)
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
