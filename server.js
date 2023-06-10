@@ -152,6 +152,9 @@ const UnescoSchema = new mongoose.Schema({
   },
   countryName: {
     type: String
+  },
+  location: {
+    type: String
   }
 });
 
@@ -187,8 +190,9 @@ app.get("/sites", async (req, res) => {
 // Location endpoint
 app.get("/sites/:location", async (req, res) => {
   try {
-    const { location } = req.body;
-    const siteData = await Unesco.findOne({location:location});
+    const { location } = req.params;
+    console.log(location)
+    const siteData = await Unesco.findOne({ location: location });
     if (siteData) {
       res.status(200).json({
         success: true,
