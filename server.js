@@ -191,8 +191,7 @@ app.get("/sites", async (req, res) => {
 app.get("/sites/:location", async (req, res) => {
   try {
     const { location } = req.params;
-    console.log(location)
-    const siteData = await Unesco.findOne({ location: location });
+    const siteData = await Unesco.find({ location: { $regex: location, $options: 'i' } });
     if (siteData) {
       res.status(200).json({
         success: true,
