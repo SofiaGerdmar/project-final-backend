@@ -11,7 +11,11 @@ mongoose.Promise = Promise;
 const port = process.env.PORT || 8080;
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: 'https://imgur.com'
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 const listEndpoints = require('express-list-endpoints');
 
