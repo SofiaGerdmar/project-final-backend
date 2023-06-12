@@ -12,7 +12,7 @@ const port = process.env.PORT || 8080;
 const app = express();
 
 const corsOptions = {
-  origin: 'https://imgur.com'
+  origin: ['https://imgur.com', 'http://localhost:3000', 'https://discoveritaly.netlify.app']
 };
 
 app.use(cors(corsOptions));
